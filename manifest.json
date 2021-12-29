@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+  "name": "Containers Socks Proxy Helper",
+  "description": "Uses the proxy API to select socks proxies for containers (with kill switch by default).",
+  "version": "0.0.1a",
+  "icons": {
+    "48": "icons/locked.svg",
+    "96": "icons/locked.svg"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "containers-proxy-helper@firefox4ever",
+      "strict_min_version": "91.0"
+    }
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "options_ui": {
+    "browser_style": true,
+    "page": "options/options.html"
+  },
+  "permissions": [
+    "proxy",
+    "storage",
+    "contextualIdentities",
+    "<all_urls>"
+  ]
+}

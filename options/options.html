@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="chrome://global/skin/in-content/common.css">
+    <link rel="stylesheet" href="aboutaddons.css">
+    <link rel="stylesheet" href="chrome://browser/skin/preferences/containers.css">
+    <link rel="stylesheet" href="options.css"/>
+</head>
+
+<body class="addon-details">
+<template id="proxyInput">
+    <div class="identity-icon-private identity-color-private">
+        <div class="userContext-icon userContext-icon-inprefs"></div>
+        <div class="userContext-label userContext-label-inprefs"></div>
+        <input class="userContext-proxy" type="text">
+    </div>
+</template>
+
+<section>
+    <div class="addon-detail-description" id="containers"></div>
+    <div class="addon-detail-row addon-detail-help-row">
+        <div>Only socks proxies</div>
+        <div>Direct - for direct connections</div>
+        <div>System - use system settings</div>
+        <div>Empty - block connection (kill switch)</div>
+</section>
+
+<script src="options.js"></script>
+</body>
+
+</html>

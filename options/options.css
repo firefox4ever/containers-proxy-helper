@@ -1,0 +1,44 @@
+html {
+    margin-top: -4px;
+    scrollbar-width: none;
+}
+
+section {
+    overflow-x: hidden;
+}
+
+#containers > div {
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+    flex-grow: 1;
+}
+
+.userContext-proxy {
+    width: 100%;
+}
+
+.userContext-label {
+    max-width: 120px;
+    min-width: 120px;
+}
+
+.userContext-icon {
+    height: 24px;
+    width: 24px;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.identity-icon-private {
+    --identity-icon: url("chrome://browser/skin/privateBrowsing.svg");
+}
+
+.identity-color-private {
+    --identity-icon-color: #8000D7;
+}
+
+.identity-icon-default {
+    --identity-icon-color: var(--text-color);
+    --identity-icon: url('chrome://branding/content/about-logo.svg');
+}

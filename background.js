@@ -34,7 +34,7 @@ function handleProxifiedRequest(requestInfo) {
         if (requestInfo.incognito) {
             storeId = 'firefox-private';
         } else if (requestInfo.tabId !== -1) {
-            storeId = 'firefox-nocontainer';
+            storeId = 'firefox-default';
         } else {
             storeId = 'firefox-unknown';
         }

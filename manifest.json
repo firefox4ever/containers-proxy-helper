@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Containers Socks Proxy Helper",
-  "description": "Assign a separate socks proxy to each Firefox container and to Private browsing windows - be sure your privacy is protected!\n\nThe only thing extension does is let you assign proxy to a container. Each request coming from any tab in the container will use this proxy.\n\n Warning! You have to configure the addon after install, because all connections are blocked by default (for security reasons).",
-  "version": "0.0.2b",
+  "description": "Assign a separate socks proxy to each Firefox container and to Private browsing windows - be sure your privacy is protected!",
+  "version": "0.0.3b",
   "icons": {
     "48": "icons/locked.svg"
   },

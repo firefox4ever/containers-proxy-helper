@@ -7,17 +7,17 @@ section {
     overflow-x: hidden;
 }
 
-#containers > div {
+#containers > div,
+#common > div {
     display: flex;
     align-items: center;
     min-width: 200px;
     flex-grow: 1;
 }
 
-.userContext-proxy {
+.userContext-proxy, .placeholders {
     width: 100%;
 }
-
 .userContext-label {
     max-width: 120px;
     min-width: 120px;
@@ -39,6 +39,36 @@ section {
 }
 
 .identity-icon-default {
+    --identity-icon: url("chrome://global/skin/icons/settings.svg");
+}
+
+.identity-icon-unknown {
+    --identity-icon: url("chrome://global/skin/icons/help.svg");
+}
+
+.identity-icon-nocontainer {
     --identity-icon-color: var(--text-color);
     --identity-icon: url('chrome://branding/content/about-logo.svg');
+}
+
+select {
+    padding: 2px;
+}
+
+div[data-value] {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    padding-left: 4px;
+}
+div[data-value="$proxy"] {
+    padding-left: 0;
+}
+.addon-detail-help-row h2 {
+    font-size: 1em;
+    margin-bottom: 0;
+}
+.addon-detail-help-row ul {
+    margin-top: 0;
+    padding-left: 24px;
 }

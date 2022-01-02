@@ -1,22 +1,23 @@
 {
   "manifest_version": 2,
   "name": "Containers Socks Proxy Helper",
-  "description": "Uses the proxy API to select socks proxies for containers (with kill switch by default).",
-  "version": "0.0.1a",
+  "description": "Assign a separate socks proxy to each Firefox container and to Private browsing windows - be sure your privacy is protected!\n\nThe only thing extension does is let you assign proxy to a container. Each request coming from any tab in the container will use this proxy.\n\n Warning! You have to configure the addon after install, because all connections are blocked by default (for security reasons).",
+  "version": "0.0.2b",
   "icons": {
-    "48": "icons/locked.svg",
-    "96": "icons/locked.svg"
+    "48": "icons/locked.svg"
   },
   "browser_specific_settings": {
     "gecko": {
       "id": "containers-proxy-helper@firefox4ever",
-      "strict_min_version": "91.0"
+      "strict_min_version": "91.1.0"
     }
   },
   "background": {
     "scripts": [
       "background.js"
     ]
+  },
+  "browser_action": {
   },
   "options_ui": {
     "browser_style": true,

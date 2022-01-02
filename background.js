@@ -29,14 +29,14 @@ browser.storage.onChanged.addListener((changes, area) => {
 });
 
 function handleProxifiedRequest(requestInfo) {
-    // The following blocks potentially dangerous requests for privacy that come without a tabId
-
     let storeId = requestInfo.cookieStoreId;
     if (!storeId) {
         if (requestInfo.incognito) {
             storeId = 'firefox-private';
         } else if (requestInfo.tabId !== -1) {
-            storeId = 'firefox-default';
+            storeId = 'firefox-nocontainer';
+        } else {
+            storeId = 'firefox-unknown';
         }
     }
 
@@ -46,17 +46,23 @@ function handleProxifiedRequest(requestInfo) {
 
             return {...result, connectionIsolationKey: "" + storeId, proxyDNS: true};
         }
-        return blocked; //killswitch
+        if (settings.default && settings.default.proxies && settings.default.proxies.length) {
+            let result = settings.default.proxies[0];
+
+            return {...result, connectionIsolationKey: "" + storeId, proxyDNS: true};
+        }
     }
 
-    if (requestInfo.tabId === -1) {
-        return {}; //system todo different settings for such requests
-    }
     return blocked;
 }
 
 // Listen for a request to open a webpage
 browser.proxy.onRequest.addListener(handleProxifiedRequest, {urls: ["<all_urls>"]});
+
+//open preferences on icon click
+browser.browserAction.onClicked.addListener(() => {
+    browser.runtime.openOptionsPage();
+});
 
 // Log any errors from the proxy script
 browser.proxy.onError.addListener(error => {

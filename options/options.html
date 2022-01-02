@@ -11,20 +11,44 @@
 
 <body class="addon-details">
 <template id="proxyInput">
-    <div class="identity-icon-private identity-color-private">
+    <div class="identity-icon identity-color" data-identity-id="">
         <div class="userContext-icon userContext-icon-inprefs"></div>
         <div class="userContext-label userContext-label-inprefs"></div>
-        <input class="userContext-proxy" type="text">
+        <select class="connectionType">
+            <option value="">Default</option>
+            <option value="$firefox">Firefox</option>
+            <option value="$direct">Direct</option>
+            <option value="$block">Block</option>
+            <option value="$proxy">Proxy</option>
+        </select>
+        <div class="placeholders">
+            <div data-value="" hidden="">Add-on default settings</div>
+            <div data-value="$firefox" hidden="">Firefox connection settings</div>
+            <div data-value="$direct" hidden="">Direct connection</div>
+            <div data-value="$block" hidden="">Block connection</div>
+            <div data-value="$proxy" hidden="">
+                <input class="userContext-proxy" type="text"><button class="more-options-button" hidden=""></button>
+            </div>
+        </div>
     </div>
 </template>
 
 <section>
+    <div class="addon-detail-description" id="common"></div>
+    <hr>
     <div class="addon-detail-description" id="containers"></div>
+    <hr>
     <div class="addon-detail-row addon-detail-help-row">
-        <div>Only socks proxies</div>
-        <div>Direct - for direct connections</div>
-        <div>System - use system settings</div>
-        <div>Empty - block connection (kill switch)</div>
+        <h2>Unknown:</h2>
+        <ul>
+            <li>For requests from unknown sources (without tabId and cookieStoreId).<br>Usually addon's requests.</li>
+        </ul>
+        <h2>Proxy:</h2>
+        <ul>
+            <li>Full socks/socks4 proxies ( socks://username:password@host:port )</li>
+            <li>Mullvad socks proxy prefixes ( de1 for socks://de1-wg.socks5.mullvad.net:1080 )</li>
+        </ul>
+    </div>
 </section>
 
 <script src="options.js"></script>

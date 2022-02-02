@@ -10,6 +10,16 @@ const blocked = {
     proxyDNS: true
 };
 
+function getStoreIdProxy(storeId) {
+    if (settings[storeId] && settings[storeId].proxies && settings[storeId].proxies.length) {
+        return settings[storeId].proxies[0];
+    }
+    if (settings.default && settings.default.proxies && settings.default.proxies.length) {
+        return settings.default.proxies[0];
+    }
+    return '$block';
+}
+
 function handleProxifiedRequest(requestInfo) {
     let storeId = requestInfo.cookieStoreId;
     if (!storeId) {
@@ -21,24 +31,24 @@ function handleProxifiedRequest(requestInfo) {
             storeId = 'firefox-unknown';
         }
     }
-    /* Maybe add in the future
     else if (storeId === 'firefox-default' && requestInfo.tabId === -1) {
         storeId = 'firefox-unknown';
     }
+    let proxy = getStoreIdProxy(storeId);
+    /*
+    *   @see https://bugzilla.mozilla.org/show_bug.cgi?id=1750572
+    *   @see https://bugzilla.mozilla.org/show_bug.cgi?id=1750561
     */
-
-    if (settings[storeId] && settings[storeId].proxies && settings[storeId].proxies.length) {
-        let result = settings[storeId].proxies[0];
-
-        return Object.keys(result).length ? {...result, connectionIsolationKey: '' + storeId, proxyDNS: true} : result;
+    if (proxy === '$firefox') {
+        return;
     }
-    if (settings.default && settings.default.proxies && settings.default.proxies.length) {
-        let result = settings.default.proxies[0];
-
-        return Object.keys(result).length ? {...result, connectionIsolationKey: '' + storeId, proxyDNS: true} : result;
+    if (proxy === '$direct') {
+        return null;
     }
-
-    return blocked;
+    if (proxy === '$block' || !proxy || !proxy.type) {
+        return [blocked, null];
+    }
+    return [{...proxy, connectionIsolationKey: '' + storeId}, null];
 }
 
 async function updateIcon(tabInfo) {
@@ -55,27 +65,25 @@ async function updateIcon(tabInfo) {
             }
         }
 
-        let result, icon, title;
-        if (settings[storeId] && settings[storeId].proxies && settings[storeId].proxies.length) {
-            result = settings[storeId].proxies[0];
-        } else if (settings.default && settings.default.proxies && settings.default.proxies.length) {
-            result = settings.default.proxies[0];
-        }
-        icon = 'icons/blocked.svg';
-        title = 'Blocked';
-        if (result) {
-            if (result.type && result.type === 'direct') {
+        let result = getStoreIdProxy(storeId),
+            icon = 'icons/blocked.svg',
+            title = 'Blocked';
+        if (result && result !== '$block') {
+            if (result === '$direct') {
                 icon = 'icons/unlocked.svg';
                 title = 'Direct Connection';
-            } else if (Object.keys(result).length === 0) {
+            } else if (result === '$firefox') {
                 icon = 'icons/warning.svg';
                 title = 'Firefox connection settings';
-            } else if (result.type && result.type === 'socks' && result.host && result.host.match(/^[a-z]{2}\d{1,3}-wg\.socks5\.mullvad\.net$/i)) {
-                icon = 'icons/flags/' + result.host.toUpperCase().substr(0, 2) + '.png';
-                title = result.host;
-            } else if (result.type && result.type === 'socks' && result.host !== 'block-proxy.localhost') {
-                icon = 'icons/locked.svg';
-                title = result.host;
+            } else if (result.type && result.type === 'socks') {
+                if (result.host && result.host.match(/^[a-z]{2}\d{1,3}-wg\.socks5\.mullvad\.net$/i)) {
+                    icon = 'icons/flags/' + result.host.toUpperCase().substr(0, 2) + '.png';
+                    title = result.host;
+                }
+                else {
+                    icon = 'icons/locked.svg';
+                    title = result.host;
+                }
             }
         }
         await browser.browserAction.setIcon({

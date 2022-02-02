@@ -3,24 +3,11 @@ const containersList = document.querySelector('#containers');
 const commonList = document.querySelector('#common');
 
 
-const firefox = {};
-const direct = {
-    type: 'direct'
-};
-const blocked = {
-    type: 'socks',
-    host: 'block-proxy.localhost',
-    port: 1,
-    failoverTimeout: 1,
-    username: 'nonexistent user',
-    password: 'random password',
-    proxyDNS: true
-};
 const connectionTypes = {
     '': [],
-    '$firefox': [firefox],
-    '$direct': [direct],
-    '$block': [blocked]
+    '$firefox': ['$firefox'],
+    '$direct': ['$direct'],
+    '$block': ['$block']
 };
 
 let settings = {};
@@ -43,7 +30,7 @@ function getProxiesFromInput(text) {
     const proxyRegexp = /(?<type>(socks4?)):\/\/(\b(?<username>\w+):(?<password>\w+)@)?(?<host>((?:\d{1,3}\.){3}\d{1,3}\b)|(\b([\w.-]+)+))(:(?<port>\d+))?/;
     const matches = proxyRegexp.exec(text);
     if (!matches) {
-        return [blocked];
+        return ['$block'];
     }
     return [{...matches.groups, proxyDNS: true}];
 }
